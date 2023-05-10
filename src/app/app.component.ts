@@ -90,9 +90,13 @@ class Menu extends Phaser.Scene {
         super('menu');
     }
 
+    preload() {
+      this.load.image('sky', 'assets/sky.png');
+    }
     create() : void {
       console.log('create method menu');
-        this.add.text(10, 10, 'Press 1, 2 or 3', { font: '16px Courier', color: '#00ff00' });
+      this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'sky').setDisplaySize(800,600);
+        this.add.text(10, 10, 'Press 1, 2 or 3', { font: '25px Bungee', color: '#00ff00' });
 
         this.input.keyboard.once('keyup-ONE',  () => {
             this.scene.start('demo', { id: 0, image: 'acryl-bladerunner.png' });
@@ -151,17 +155,24 @@ class Demo extends Phaser.Scene {
 
     preload () {
         this.load.image(`pic${this.imageID}`, `assets/pics/${this.imageFile}`);
+        
+          this.load.image('sky', 'assets/sky.png');
+        
     }
 
     create ()
     {
-        this.add.text(10, 10, 'Click to Return', { font: '16px Courier', color: '#00ff00' });
+      this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'sky').setDisplaySize(800,600);
+        this.add.text(10, 10, 'Click to Return or press ESC', { font: '25px Bungee', color: '#00ff00' });
 
         this.add.image(400, 300, `pic${this.imageID}`).setScale(2);
 
-        this.input.once('pointerup',  () =>
-        {
+        this.input.keyboard.once('keyup-ESC',  () => {
+          this.scene.start('menu');
 
+        }, this);
+        
+        this.input.once('pointerup',  () => {
             this.scene.start('menu');
 
         }, this);
